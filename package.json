@@ -11,7 +11,8 @@
   ],
   "scripts": {
     "build": "tsc",
-    "prepublishOnly": "pnpm run build"
+    "prepublishOnly": "pnpm run build",
+    "release": "ts-node release.ts"
   },
   "keywords": [
     "cursor",
