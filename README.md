@@ -4,7 +4,7 @@
 
 ## Features
 
-- Fetch `.cursorrules` files from a specific GitHub repository (qwertic/cursorrules)[https://github.com/Qwertic/cursorrules]
+- Fetch `.cursorrules` files from a specific [GitHub repository](https://github.com/Qwertic/cursorrules) that seerves as a remote storage for cursor rules
 - Download `.cursorrules` files from a remote URL
 - Interactive directory selection when fetching from the GitHub repository
 - Save `.cursorrules` files to a specified local directory
@@ -27,4 +27,4 @@ npm crrl
 
 ## License
 
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
+This project is licensed under the MIT License. See the [LICENSE](/LICENSE.md) file for more details.
