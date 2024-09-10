@@ -1,27 +1,32 @@
 {
-  "name": "crrl",
+  "name": "@qwertic/crrl",
   "version": "1.0.0",
   "description": "CLI tool to fetch and save .cursorrules files",
-  "main": "index.js",
-  "scripts": {
-    "build": "tsc",
-    "start": "node dist/index.js",
-    "test": "jest",
-    "prepublishOnly": "pnpm run build"
-  },
+  "main": "dist/index.js",
   "bin": {
     "crrl": "./dist/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "prepublishOnly": "pnpm run build"
+  },
+  "keywords": [
+    "cursor",
+    "cursor-ai",
+    "cursorrules",
+    "cursor-rules",
+    "cursor-rules-cli",
+    "cursor-rules-cli-tool"
+  ],
+  "author": "Qwertic",
+  "license": "MIT",
   "devDependencies": {
     "@types/inquirer": "^9.0.7",
-    "@types/jest": "^27.0.0",
     "@types/node": "^22.5.4",
     "@types/node-fetch": "^2.6.11",
-    "jest": "^27.0.0",
-    "ts-jest": "^27.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^4.3.5"
   },
