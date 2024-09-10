@@ -11,16 +11,10 @@
 
 ## Installation
 
-To install `crrl`, you need Node.js and npm (or pnpm) installed on your system. Then, you can install it globally using:
+To install `crrl`, you need Node.js(^20) and npm (or pnpm) installed on your system. Then, you can install it globally using:
 
 ```bash
-npm install -g crrl
-```
-
-or
-
-```bash
-pnpm install -g crrl
+npm install crrl
 ```
 
 ## Usage
@@ -28,7 +22,7 @@ pnpm install -g crrl
 To use `crrl`, run the following command:
 
 ```bash
-crrl
+npm crrl
 ```
 
 ## License
