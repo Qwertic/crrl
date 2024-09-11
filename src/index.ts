@@ -2,7 +2,9 @@ import { Command } from "commander";
 import fetch, { Response as FetchResponse } from "node-fetch";
 import fs from "fs/promises";
 import path from "path";
-import inquirer from "inquirer";
+import { search, confirm } from "@inquirer/prompts";
+import { createInterface } from "readline";
+
 import ora from "ora";
 
 const REPO_URL =
@@ -125,26 +127,62 @@ export async function fetchRemoteFile(url: string): Promise<string> {
   }
 }
 
-async function promptUserForDirectory(directories: string[]): Promise<string> {
-  try {
-    const { selectedDir } = await inquirer.prompt([
-      {
-        type: "list",
-        name: "selectedDir",
-        message: "Choose a directory:",
-        choices: directories,
-      },
-    ]);
-    return selectedDir;
-  } catch (error) {
-    if (
-      error instanceof Error &&
-      error.message.includes("User force closed the prompt")
-    ) {
-      console.log("Operation cancelled by user.");
+async function promptUserForDirectory(
+  directories: string[]
+): Promise<string | null> {
+  const rl = createInterface({
+    input: process.stdin,
+    output: process.stdout,
+  });
+
+  process.stdin.setRawMode(true);
+  process.stdin.on("keypress", (_, key) => {
+    if (key && key.name === "escape") {
+      rl.close();
       process.exit(0);
     }
-    throw error;
+  });
+
+  try {
+    while (true) {
+      const selectedDir = await search({
+        message: "Choose a directory (ESC to exit):",
+        source: (term) => {
+          return directories
+            .filter((dir) =>
+              dir.toLowerCase().includes((term || "").toLowerCase())
+            )
+            .map((dir) => ({
+              name: dir,
+              value: dir,
+            }));
+        },
+        pageSize: 10,
+      });
+
+      const readme = await fetchReadme(selectedDir);
+      if (readme) {
+        console.log("\nREADME.md for", selectedDir, ":\n");
+        console.log(readme);
+      } else {
+        console.log("\nNo README.md found for", selectedDir);
+      }
+
+      const shouldUse = await confirm({
+        message: "Do you want to use this directory?",
+        default: true,
+      });
+
+      if (shouldUse) {
+        return selectedDir;
+      } else {
+        console.log("Returning to directory selection...");
+      }
+    }
+  } finally {
+    rl.close();
+    process.stdin.setRawMode(false);
+    process.stdin.removeAllListeners("keypress");
   }
 }
 
@@ -162,6 +200,29 @@ async function saveLocalFile(content: string, dir: string): Promise<void> {
     } else {
       throw error;
     }
+  }
+}
+
+async function fetchReadme(dirName: string): Promise<string | null> {
+  try {
+    const dirUrl = `${REPO_URL}/${dirName}`;
+    const response = await retryFetch(dirUrl);
+    const dirContents = (await response.json()) as {
+      name: string;
+      type: string;
+      download_url: string;
+    }[];
+
+    const readme = dirContents.find(
+      (item) => item.type === "file" && item.name.toLowerCase() === "readme.md"
+    );
+    if (!readme) {
+      return null;
+    }
+    return fetchRemoteFile(readme.download_url);
+  } catch (error) {
+    console.error(`Error fetching README: ${(error as Error).message}`);
+    return null;
   }
 }
 
@@ -185,6 +246,10 @@ async function main(options: CliOptions): Promise<void> {
         throw new Error("No directories found in the repository.");
       }
       const selectedDir = await promptUserForDirectory(dirList);
+      if (selectedDir === null) {
+        console.log("Operation cancelled by user.");
+        return;
+      }
       content = await fetchCursorRulesFile(selectedDir);
     }
     if (!content.trim()) {
