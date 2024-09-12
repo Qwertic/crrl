@@ -44,7 +44,6 @@
   },
   "dependencies": {
     "@inquirer/prompts": "^5.5.0",
-    "axios": "^1.7.7",
     "commander": "^12.1.0",
     "node-fetch": "2",
     "ora": "5"
