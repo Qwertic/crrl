@@ -2,9 +2,9 @@
   "name": "crrl",
   "version": "1.0.4",
   "description": "CLI tool to fetch and save .cursorrules files",
-  "main": "dist/index.js",
+  "main": "dist/src/index.js",
   "bin": {
-    "crrl": "./dist/index.js"
+    "crrl": "./dist/src/index.js"
   },
   "files": [
     "dist"
