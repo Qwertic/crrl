@@ -1,6 +1,11 @@
 # crrl - Cursor Rules CLI
 
+
+
+![crrl](https://github.com/user-attachments/assets/cf3cbba6-ccd3-4e9c-bdcc-58d34675075d)
+
 `crrl` is a command-line interface (CLI) tool designed to fetch and save `.cursorrules` files from a GitHub repository or a remote URL. It simplifies the process of managing cursor rules for your projects.
+
 
 ## Features
 
