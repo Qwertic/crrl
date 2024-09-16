@@ -10,7 +10,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && chmod +x dist/index.js",
     "prepublishOnly": "npm run build",
     "start": "node dist/index.js",
     "release": "ts-node release.ts"
