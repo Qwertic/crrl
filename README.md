@@ -14,7 +14,7 @@
 To install `crrl`, you need Node.js(^20) and npm (or pnpm) installed on your system. Then, you can install it globally using:
 
 ```bash
-npm install crrl
+npm install -g crrl
 ```
 
 ## Usage
@@ -22,7 +22,13 @@ npm install crrl
 To use `crrl`, run the following command:
 
 ```bash
-npm crrl
+crrl
+```
+
+You can also use it to download a cursor rule by specifying the remote url:
+
+```bash
+crrl -u <remote-url> -d <local-directory>
 ```
 
 ## License

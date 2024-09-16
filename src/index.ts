@@ -1,3 +1,5 @@
+#!/usr/bin/env node
+
 import { Command } from "commander";
 import fetch, { Response as FetchResponse } from "node-fetch";
 import fs from "fs/promises";
